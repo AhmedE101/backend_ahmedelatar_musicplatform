@@ -1,8 +1,16 @@
 from datetime import datetime
+from email.policy import default
 from time import timezone
 from django.db import models
 
 # task-1 (creating artist ,album and queryset)
+
+
+# task-2
+class PollManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('stage_name')
+# task-2
 
 
 class Artist(models.Model):
@@ -13,6 +21,14 @@ class Artist(models.Model):
 
     def __str__(self):
         return "Stage_name =" + self.Stage_Name + "Social_link = " + self.Social_link
+
+        # task-2
+    objects = PollManager()
+
+    def approved_albums(self):
+        return self.album_set.filter(album_is_approved=True).count()
+
+        # task-2
 
 
 class Album(models.Model):
@@ -27,6 +43,10 @@ class Album(models.Model):
     release_time = models.DateTimeField('publish time')
 
     album_cost = models.DecimalField(max_digits=20, decimal_places=2)
+
+    # Task-2
+    album_is_approved = models.BooleanField(
+        default=True, help_text="Approve the album if its name is not explicit")
 
     def __str__(self):
         return "name = " + self.album_name + " Artist = " + self.artist_fk.Stage_name
