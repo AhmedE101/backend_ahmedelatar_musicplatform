@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from datetime import datetime
 from time import timezone
@@ -17,6 +18,9 @@ class Album(models.Model):
     release_time = models.DateTimeField('publish time')
 
     album_cost = models.DecimalField(max_digits=20, decimal_places=2)
+
+    album_is_approved = models.BooleanField(
+        default=True, help_text=" Approve the album if its name is not explicit")
 
     def __str__(self):
         return "name = " + self.album_name + " Artist = " + self.artist_fk.stage_name
