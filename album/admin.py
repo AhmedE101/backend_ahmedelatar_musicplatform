@@ -3,11 +3,6 @@ from .models import Album
 # Register your models here.
 
 
-class approvedalbumcolumn(admin.StackedInline):
-    model = Album
-    extra = 1
-
-
 class readonlyalbum(admin.ModelAdmin):
     readonly_fields = ('created',)
 
