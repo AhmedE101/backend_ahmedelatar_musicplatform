@@ -6,18 +6,18 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-class create_album(FormView):
-    template_name = 'album/add_album.html'
-    form_class = AlbumForm
+def create_album(request):
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+    passed = 1
+    if request.method == 'POST':
+        form = AlbumForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponse("thanks you, the record added successful.")
         else:
-            return render(request, self.template_name, {'form': form})
+            passed = 0
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+    else:
+        form = AlbumForm()
+
+    return render(request, 'artists/add_album.html', {'form': form, 'ok': passed})

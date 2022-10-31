@@ -6,25 +6,24 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 
 
-class list_artist(View):
-    template_name = 'artists/fetch.html'
-
-    def get(self, request, *args, **kwargs):
-        context = {'artist_list':  Artist.objects.all()}
-        return render(request, self.template_name, context)
+def list_artist(request):
+    context = {'artist_list':  Artist.objects.all()}
+    return render(request, 'artists/fetch.html', context)
 
 
-class create_artist(View):
-    template_name = 'artists/add_artist.html'
+def create_artist(request):
 
-    def post(self, request, *args, **kwargs):
+    passed = 1
+    if request.method == 'POST':
         form = ArtistForm(request.POST)
         if form.is_valid():
+
             form.save()
             return HttpResponse("thanks you, the record added successful.")
         else:
-            return render(request, self.template_name, {'form': form})
+            passed = 0
 
-    def get(self, request, *args, **kwargs):
+    else:
         form = ArtistForm()
-        return render(request, self.template_name, {'form': form})
+
+    return render(request, 'artists/add_artist.html', {'form': form, 'ok': passed})
