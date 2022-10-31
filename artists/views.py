@@ -1,8 +1,30 @@
-from http.client import HTTPResponse
 from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Artist
+from .forms import ArtistForm
+from django.views.generic import View
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
+class list_artist(View):
+    template_name = 'artists/fetch.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {'artist_list':  Artist.objects.all()}
+        return render(request, self.template_name, context)
 
 
-def index(request):
-    return HTTPResponse("artist index")
+class create_artist(View):
+    template_name = 'artists/add_artist.html'
+
+    def post(self, request, *args, **kwargs):
+        form = ArtistForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("thanks you, the record added successful.")
+        else:
+            return render(request, self.template_name, {'form': form})
+
+    def get(self, request, *args, **kwargs):
+        form = ArtistForm()
+        return render(request, self.template_name, {'form': form})

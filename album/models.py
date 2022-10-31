@@ -1,19 +1,20 @@
+from distutils import extension
 from email.policy import default
+from operator import imod
 from django.db import models
 from datetime import datetime
 from time import timezone
 from artists.models import Artist
+from model_utils.models import TimeStampedModel
 # Create your models here.
 
 
-class Album(models.Model):
+class Album(TimeStampedModel):
 
     artist_fk = models.ForeignKey(Artist, on_delete=models.CASCADE)
 
     album_name = models.CharField(
         max_length=200, default="New Album", verbose_name="New Album")
-
-    creation_time = models.DateTimeField('time created', unique=True)
 
     release_time = models.DateTimeField('publish time')
 

@@ -9,7 +9,7 @@ class approvedalbumcolumn(admin.StackedInline):
 
 
 class readonlyalbum(admin.ModelAdmin):
-    readonly_fields = ('creation_time',)
+    readonly_fields = ('created',)
 
 
 admin.site.register(Album, readonlyalbum)
