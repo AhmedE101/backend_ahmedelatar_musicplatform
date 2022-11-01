@@ -10,4 +10,4 @@ class Artist(models.Model):
     social_link = models.URLField(max_length=200, blank=True)
 
     def __str__(self):
-        return "Stage_name =" + self.stage_name + "Social_link = " + self.social_link
+        return "Stage_name =" + self.stage_name + " --> " + "Social_link = " + self.social_link
