@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "artists.apps.ArtistsConfig",
     "album",
     "accounts",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
